@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block title %}My Recipes | Recipe Site{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">My Recipes</h2>
+{% if recipes %}
+    <ul class="space-y-4">
+        {% for recipe in recipes %}
+        <li class="bg-white p-4 rounded shadow flex justify-between items-center">
+            <div>
+                <a href="{% url 'recipes:detail' recipe.pk %}" class="text-lg font-semibold text-green-700 hover:underline">{{ recipe.title }}</a>
+                <p class="text-gray-500 text-sm">Created: {{ recipe.created_at|date:"M d, Y" }}</p>
+            </div>
+            <div>
+                <a href="{% url 'recipes:edit' recipe.pk %}" class="text-blue-600 hover:underline mx-2">Edit</a>
+                <a href="{% url 'recipes:delete' recipe.pk %}" class="text-red-600 hover:underline mx-2">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-gray-600">No recipes found. <a href="{% url 'recipes:generate' %}" class="text-green-600 hover:underline">Generate one</a> or <a href="{% url 'recipes:manual' %}" class="text-green-600 hover:underline">add manually</a>.</p>
+{% endif %}
+{% endblock %} 

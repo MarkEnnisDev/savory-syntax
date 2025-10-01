@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block title %}Profile | Recipe Site{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow mt-8">
+    <h2 class="text-2xl font-bold mb-4">My Profile</h2>
+    <p><span class="font-semibold">Username:</span> {{ user.username }}</p>
+    <p><span class="font-semibold">Email:</span> {{ user.email }}</p>
+    <div class="mt-6">
+        <a href="/recipes/" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">My Recipes</a>
+        <a href="/users/logout/" class="ml-4 text-gray-600 hover:underline">Logout</a>
+    </div>
+</div>
+{% endblock %} 

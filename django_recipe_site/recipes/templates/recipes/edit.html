@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Edit Recipe | Recipe Site{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Edit Recipe</h2>
+<form method="post" class="bg-white p-6 rounded shadow max-w-xl mx-auto">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label for="title" class="block text-gray-700 font-semibold mb-2">Title:</label>
+        <input type="text" name="title" id="title" class="w-full border rounded px-3 py-2" required value="{{ form.title.value|default:recipe.title }}">
+    </div>
+    <div class="mb-4">
+        <label for="ingredients" class="block text-gray-700 font-semibold mb-2">Ingredients (one per line):</label>
+        <textarea name="ingredients" id="ingredients" rows="4" class="w-full border rounded px-3 py-2" required>{{ form.ingredients.value|default:recipe.ingredients }}</textarea>
+    </div>
+    <div class="mb-4">
+        <label for="instructions" class="block text-gray-700 font-semibold mb-2">Instructions:</label>
+        <textarea name="instructions" id="instructions" rows="6" class="w-full border rounded px-3 py-2" required>{{ form.instructions.value|default:recipe.instructions }}</textarea>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update Recipe</button>
+    <a href="{% url 'recipes:detail' recipe.pk %}" class="ml-4 text-gray-600 hover:underline">Cancel</a>
+</form>
+{% endblock %} 

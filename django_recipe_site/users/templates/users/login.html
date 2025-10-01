@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+{% block title %}Login | Recipe Site{% endblock %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Login</h2>
+<form method="post" class="bg-red p-6 rounded shadow max-w-md mx-auto border-green-700 border-solid ">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mt-6">Log In</button>
+</form>
+<p class="mt-4 text-gray-600">Don't have an account? <a href="{% url 'users:register' %}" class="text-green-600 hover:underline">Register here</a>.</p>
+{% endblock %} 
