@@ -20,6 +20,9 @@ media/
 *.swp
 *.swo
 *~
+.cursor/
+PLANNING.media
+TASK.MD
 
 # OS
 .DS_Store
@@ -86,3 +89,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Task-based 
