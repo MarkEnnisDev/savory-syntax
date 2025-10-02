@@ -32,6 +32,7 @@ DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else []
 # Application definition
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if os.getenv('CSRF_TRUSTED_ORIGINS') else []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -78,12 +79,37 @@ WSGI_APPLICATION = 'django_recipe_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Database configuration
 # Use DATABASE_URL if available (for production), otherwise fall back to SQLite
 if os.getenv('DATABASE_URL'):
-    import dj_database_url
+    try:
+        import dj_database_url
+        DATABASES = {
+            'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+        }
+        print(f"Using DATABASE_URL: {os.getenv('DATABASE_URL')[:20]}...")  # Debug log
+    except Exception as e:
+        print(f"Error parsing DATABASE_URL: {e}")
+        # Fallback to SQLite if DATABASE_URL is invalid
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+elif os.getenv('DB_ENGINE') == 'postgresql':
+    # PostgreSQL configuration using individual environment variables
     DATABASES = {
-        'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'recipe_site_db'),
+            'USER': os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
     }
+    print(f"Using PostgreSQL: {os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}")  # Debug log
 else:
     # Development database (SQLite)
     DATABASES = {
@@ -92,6 +118,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    print("Using SQLite database")  # Debug log
 
 
 # Password validation
