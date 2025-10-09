@@ -10,6 +10,7 @@ torch = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+together = "*"
 
 [dev-packages]
 
